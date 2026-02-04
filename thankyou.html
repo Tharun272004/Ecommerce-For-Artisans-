@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Order Confirmed | Artisans Store</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f2f7fb;
+            margin: 0;
+            padding: 0;
+        }
+
+        .box {
+            max-width: 600px;
+            margin: 80px auto;
+            background: white;
+            padding: 40px;
+            text-align: center;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .box h1 {
+            color: #179fc5;
+            margin-bottom: 10px;
+        }
+
+        .box p {
+            font-size: 16px;
+            margin: 8px 0;
+        }
+
+        .order-id {
+            font-size: 18px;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+
+        .actions button {
+            margin: 15px 10px;
+            padding: 12px 20px;
+            background: #179fc5;
+            border: none;
+            color: white;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .actions button:hover {
+            background: #0f6f87;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="box">
+        <h1>🎉 Thank You for Your Order!</h1>
+        <p>Your order has been placed successfully.</p>
+
+        <div class="order-id">
+            Order ID: <span id="orderId"></span>
+        </div>
+
+        <p>
+            Estimated delivery in <b>3–5 days</b>
+        </p>
+
+        <div class="actions">
+            <button onclick="trackOrder()">Track Order</button>
+            <button onclick="continueShopping()">Continue Shopping</button>
+        </div>
+    </div>
+
+    <script>
+        let orderId = localStorage.getItem("activeOrderId");
+
+        if (!orderId) {
+            window.location.href = "home.html";
+        }
+
+        document.getElementById("orderId").innerText = orderId;
+
+        function trackOrder() {
+            window.location.href = "order-tracking.html";
+        }
+
+        function continueShopping() {
+            window.location.href = "home.html";
+        }
+
+        // Initial cart count update
+         function updateCartCount() {
+            const cart = JSON.parse(localStorage.getItem("cart")) || [];
+            const count = cart.reduce((s, i) => s + i.qty, 0);
+            const el = document.getElementById("cartCount");
+            if (el) el.innerText = count;
+        }
+        updateCartCount();
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>cart page</title>
+</head>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: #f2f7fb;
+        margin: 0;
+    }
+
+    .cart-header {
+        background: #179fc5;
+        color: white;
+        padding: 15px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .cart-header a {
+        color: white;
+        text-decoration: none;
+        font-weight: bold;
+    }
+
+    .cart-section {
+        padding: 20px;
+    }
+
+    .cart-items {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .cart-item {
+        background: white;
+        display: flex;
+        gap: 15px;
+        padding: 15px;
+        border-radius: 8px;
+        align-items: center;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .cart-item img {
+        width: 100px;
+        height: 100px;
+        object-fit: contain;
+        background: #f5f5f5;
+    }
+
+    .cart-details {
+        flex: 1;
+    }
+
+    .cart-details h3 {
+        margin: 0;
+        font-size: 16px;
+    }
+
+    .cart-details p {
+        margin: 5px 0;
+    }
+
+    .cart-actions {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .cart-actions button {
+        padding: 5px 10px;
+        cursor: pointer;
+    }
+
+    .remove-btn {
+        background: red;
+        color: white;
+        border: none;
+        border-radius: 4px;
+    }
+
+    .cart-summary {
+        margin-top: 30px;
+        background: white;
+        padding: 20px;
+        text-align: right;
+        border-radius: 8px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .checkout-btn {
+        padding: 10px 20px;
+        background: #179fc5;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    #toast {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background: #179fc5;
+        color: white;
+        padding: 12px 20px;
+        border-radius: 6px;
+        display: none;
+        z-index: 9999;
+        font-weight: bold;
+    }
+</style>
+
+<body>
+    <header class="cart-header">
+        <h1>🛒 Shopping Cart (<span id="cartCount">0</span>)</h1>
+        <a href="home.html">⬅ Continue Shopping</a>
+    </header>
+
+    <section class="cart-section">
+        <div id="cartItems" class="cart-items"></div>
+
+        <div class="cart-summary">
+            <h2>Total: ₹<span id="totalPrice">0</span></h2>
+            <button onclick="clearCart()">Clear Cart</button>
+            <button class="checkout-btn" id="checkoutBtn" onclick="checkout()">
+                Proceed to Checkout
+            </button>
+        </div>
+    </section>
+
+    <!-- TOAST MESSAGE -->
+    <div id="toast"></div>
+
+
+    <script>
+        // Load cart from localStorage
+        let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+        // Get DOM elements
+        const cartItemsEl = document.getElementById("cartItems");
+        const totalPriceEl = document.getElementById("totalPrice");
+
+        // Render cart items
+        function renderCart() {
+            cartItemsEl.innerHTML = "";
+            let total = 0;
+
+            if (cart.length === 0) {
+                cartItemsEl.innerHTML = "<h3>Your cart is empty 🛒</h3>";
+                totalPriceEl.innerText = 0;
+                return;
+            }
+
+            cart.forEach(item => {
+                total += item.price * item.qty;
+
+                cartItemsEl.innerHTML += `
+                   <div class="cart-item">
+                     <img src="${item.image}">
+                       <div class="cart-details">
+                         <h3>${item.name}</h3>
+                         <p>₹${item.price}</p>
+                        </div>
+
+                       <div class="cart-actions">
+                         <button onclick="updateQty(${item.id}, -1)">−</button>
+                         <span>${item.qty}</span>
+                         <button onclick="updateQty(${item.id}, 1)">+</button>
+                         <button class="remove-btn" onclick="removeItem(${item.id})">X</button>
+                        </div>
+                    </div>
+          `;
+            });
+
+            totalPriceEl.innerText = total;
+            updateCartCount();
+        }
+
+        // Update cart count display
+        function updateCartCount() {
+            const count = cart.reduce((sum, item) => sum + item.qty, 0);
+            const cartCountEl = document.getElementById("cartCount");
+            if (cartCountEl) {
+                cartCountEl.innerText = count;
+            }
+        }
+
+        // Update quantity of item
+        function updateQty(id, change) {
+            const item = cart.find(p => p.id === id);
+            if (!item) return;
+
+            item.qty += change;
+            if (item.qty <= 0) {
+                cart = cart.filter(p => p.id !== id);
+            }
+
+            localStorage.setItem("cart", JSON.stringify(cart));
+            renderCart();
+        }
+
+        // Remove item from cart
+        function removeItem(id) {
+            cart = cart.filter(p => p.id !== id);
+            localStorage.setItem("cart", JSON.stringify(cart));
+            renderCart();
+        }
+
+        renderCart();
+
+        // Clear cart function
+        function clearCart() {
+            localStorage.removeItem("cart");
+            cart = [];
+            renderCart();
+        }
+
+        // Checkout function (dummy implementation)
+        function checkout() {
+            if (cart.length === 0) {
+                showToast("Your cart is empty!");
+                return;
+            }
+
+            const order = {
+                items: cart,
+                total: totalPriceEl.innerText,
+                date: new Date().toLocaleString()
+            };
+
+            localStorage.setItem("lastOrder", JSON.stringify(order));
+
+            window.location.href = "checkout.html";
+        }
+
+        // Initial cart count update
+        function updateCartCount() {
+            const cart = JSON.parse(localStorage.getItem("cart")) || [];
+            const count = cart.reduce((s, i) => s + i.qty, 0);
+            const el = document.getElementById("cartCount");
+            if (el) el.innerText = count;
+        }
+        updateCartCount();
+
+        // Toast message function
+        function showToast(message) {
+            const toast = document.getElementById("toast");
+            toast.innerText = message;
+            toast.style.display = "block";
+
+            setTimeout(() => {
+                toast.style.display = "none";
+            }, 3000);
+        }
+        
+        
+    </script>
+
+</body>
+
+</html>

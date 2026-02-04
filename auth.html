@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login / Register | Artisans Store</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Auth page styles -->
+    <link rel="stylesheet" href="auth.css">
+</head>
+<body>
+
+<div class="auth-container">
+
+    <!-- ========== LOGIN FORM ========== -->
+    <div id="loginBox" class="auth-box">
+        <h2>Login</h2>
+
+        <input type="email" id="loginEmail" placeholder="Email">
+        <input type="password" id="loginPassword" placeholder="Password">
+
+        <button onclick="login()">Login</button>
+
+        <p>
+            New user?
+            <span class="link" onclick="showRegister()">Create account</span>
+        </p>
+    </div>
+
+    <!-- ========== REGISTER FORM ========== -->
+    <div id="registerBox" class="auth-box hidden">
+        <h2>Register</h2>
+
+        <input type="text" id="regName" placeholder="Full Name">
+        <input type="email" id="regEmail" placeholder="Email">
+        <input type="password" id="regPassword" placeholder="Password">
+
+        <button onclick="register()">Register</button>
+
+        <p>
+            Already have an account?
+            <span class="link" onclick="showLogin()">Login here</span>
+        </p>
+    </div>
+
+</div>
+
+<!-- Auth logic -->
+<script src="auth.js"></script>
+
+</body>
+</html>

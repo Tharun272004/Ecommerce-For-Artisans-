@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Orders | Artisans Store</title>
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        .orders-container {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        .order-card {
+            background: white;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-radius: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .order-status-running {
+            color: orange;
+            font-weight: bold;
+        }
+
+        .order-status-delivered {
+            color: green;
+            font-weight: bold;
+        }
+
+        button {
+            background: #179fc5;
+            border: none;
+            color: white;
+            padding: 10px 14px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>Artisans Store</h1>
+        <p>Your Orders</p>
+    </header>
+
+    <div class="orders-container" id="ordersList"></div>
+
+    <script>
+        // LOGIN GUARD
+        let loggedInUser = localStorage.getItem("loggedInUser");
+        // if (!loggedInUser) {
+        //     alert("Please login to view your orders");
+        //     window.location.href = "auth.html";
+        // }
+
+        let ordersByUser = JSON.parse(localStorage.getItem("ordersByUser")) || {};
+        let orders = ordersByUser[loggedInUser] || [];
+
+        let list = document.getElementById("ordersList");
+
+        // EMPTY STATE
+        if (orders.length === 0) {
+            list.innerHTML = `
+      <div style="text-align:center; padding:40px;">
+        <h2>🧾 No Orders Yet</h2>
+        <p>You haven’t placed any orders.</p>
+        <a href="home.html">
+          <button>Start Shopping</button>
+        </a>
+      </div>
+    `;
+        } else {
+            orders.forEach(o => {
+                let statusClass = "status-running";
+                if (o.status === "Delivered") statusClass = "status-delivered";
+
+                list.innerHTML += `
+        <div class="order-card">
+          <div class="order-details">
+            <b>Order ID:</b> ${o.id}<br>
+            <b>Date:</b> ${new Date(o.date).toLocaleString()}<br>
+            <b>Total:</b> ₹${o.total}<br>
+            <span class="${statusClass}">${o.status}</span>
+          </div>
+
+          <button onclick="trackOrder('${o.id}')">
+            Track Order
+          </button>
+        </div>
+      `;
+            });
+        }
+
+        function trackOrder(orderId) {
+            localStorage.setItem("activeOrderId", orderId);
+            window.location.href = "order-tracking.html";
+        }
+
+        // Initial cart count update
+         function updateCartCount() {
+            const cart = JSON.parse(localStorage.getItem("cart")) || [];
+            const count = cart.reduce((s, i) => s + i.qty, 0);
+            const el = document.getElementById("cartCount");
+            if (el) el.innerText = count;
+        }
+        updateCartCount();
+    </script>
+
+
+</body>
+
+</html>

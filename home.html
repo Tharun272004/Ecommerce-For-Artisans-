@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AAS handmade products </title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <header>
+        <h1>Artisans Art Store</h1>
+        <p><small>"WELCOME TO ARTISANS WORLD" SHOP NOW AND ENJOY GREAT DEALS</small></p>
+
+        <div class="header-bar">
+
+            <!-- LEFT NAV LINKS -->
+            <nav>
+                <ul class="nav-left">
+                    <li><a href="home.html">Home</a></li>
+                    <li><a href="#categoriescard">Categories</a></li>
+                    <li><a href="my-orders.html">My Orders</a></li>
+                    <li><a href="#">About</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+
+            <!-- RIGHT AUTH LINKS -->
+            <div class="nav-right">
+                <span id="welcomeUser" class="welcome"></span>
+
+                <a href="profile.html" id="profileLink">👤 Profile</a>
+
+                <a href="auth.html" id="loginLink">Login/Register</a>
+
+                <a href="#" id="logoutLink" onclick="logout()" class="hidden">Logout</a>
+            </div>
+
+        </div>
+
+        <div class="top-bar">
+            <div class="searchbar">
+                <input type="text" id="searchInput" placeholder="Search products..." onkeyup="searchProducts()" />
+                <button>Search</button>
+            </div>
+            <div class="cart">
+                <a href="cart.html">🛒 Cart (<span id="cartCount">0</span>)</a>
+            </div>
+        </div>
+    </header>
+
+
+    <section id="categoriescard">
+        <h2>Categories</h2>
+        <div class="categories">
+
+            <div class="category-card" onclick="filterByCategory(event, 'pottery')">
+                <span>🏺</span>
+                <h3>Pottery</h3>
+                <p>Handmade clay items like pots, vases, and kitchenware.</p>
+            </div>
+
+
+            <div class="category-card" onclick="filterByCategory(event, 'handloom')">
+                <span>🧵</span>
+                <h3>Handloom</h3>
+                <p>Handwoven clothes and fabrics made using traditional looms.</p>
+            </div>
+
+            <div class="category-card" onclick="filterByCategory(event, 'wooden')">
+                <span>🪵</span>
+                <h3>Wooden Crafts</h3>
+                <p>Carved wooden items such as toys, décor, and utility products.</p>
+            </div>
+
+            <div class="category-card" onclick="filterByCategory(event, 'paintings')">
+                <span>🎨</span>
+                <h3>Paintings</h3>
+                <p>Traditional and modern hand-painted artworks by artisans.</p>
+            </div>
+
+            <div class="category-card" onclick="filterByCategory(event, 'jewelry')">
+                <span>💍</span>
+                <h3>Jewelry</h3>
+                <p>Handcrafted ornaments made using beads, metals, and stones.</p>
+            </div>
+
+            <div class="category-card" onclick="filterByCategory(event, 'terracotta')">
+                <span>🪔</span>
+                <h3>Terracotta</h3>
+                <p>Eco-friendly clay products used for décor and lamps.</p>
+            </div>
+
+            <div class="category-card" onclick="filterByCategory(event, 'bamboo_cane')">
+                <span>🧺</span>
+                <h3>Bamboo & Cane</h3>
+                <p>Lightweight and eco-friendly items made from bamboo and cane.</p>
+            </div>
+
+            <div class="category-card" onclick="filterByCategory(event, 'metal_crafts')">
+                <span>🔔</span>
+                <h3>Metal Crafts</h3>
+                <p>Handmade items crafted using brass, copper, and iron.</p>
+            </div>
+
+            <div class="category-card" onclick="filterByCategory(event, 'home_decor')">
+                <span>🏠</span>
+                <h3>Home Décor</h3>
+                <p>Decorative handmade items that enhance home interiors.</p>
+            </div>
+
+            <div class="category-card" onclick="filterByCategory(event, 'leather_crafts')">
+                <span>🖐️</span>
+                <h3>Leather Crafts</h3>
+                <p>Handcrafted leather goods like bags, wallets, and footwear.</p>
+            </div>
+
+            <div class="category-card" onclick="filterByCategory(event, 'handmade_gifts')">
+                <span>🎁</span>
+                <h3>Handmade Gifts</h3>
+                <p>Unique handmade items perfect for gifting on special occasions.</p>
+            </div>
+
+        </div>
+    </section>
+
+    <section class="menu">
+        <h2>Featured Products</h2>
+
+        <button onclick="showAllProducts()">Show All Products</button>
+        <div class="products" id="productList"></div>
+        <!-- Products will be displayed here by JavaScript -->
+    </section>
+
+
+    <!-- <section>
+        <h2>Random Picks for You</h2>
+        <div class="products" id="productList">
+            Random Products will be displayed here by JavaScript 
+        </div>
+    </section> -->
+
+    <section>
+        <h2>Why Choose Us?</h2>
+        <div class="why-us">
+            <div class="why-card">✅ Direct from Artisans</div>
+            <div class="why-card">🌱 Eco-Friendly</div>
+            <div class="why-card">💰 Fair Pricing</div>
+            <div class="why-card">🔒 Secure Payments</div>
+        </div>
+    </section>
+
+
+    <footer>
+
+        <!-- Center Title -->
+        <h3>🎨 Artisans Store</h3>
+        <p>
+            Handmade & eco-friendly products by skilled artisans |
+            shop with us for unique creations |
+            sustainable & ethical shopping experience.
+        </p>
+
+        <!-- LEFT & RIGHT SECTION -->
+        <div class="footer-middle">
+
+            <div class="contact" id="contact">
+                <h3>📞 Contact Details</h3>
+                <p>Phone: +91 9644808780</p>
+                <p>Email: support@artisansstore.com</p>
+                <p>Address: Chitvel-516104, Rajempeta, India</p>
+            </div>
+
+            <div class="social-media">
+                <h3>🌐 Follow Us</h3>
+                <p><a href="#">👍 Facebook</a></p>
+                <p><a href="#">📸 Instagram</a></p>
+                <p><a href="#">🐦 Twitter</a></p>
+                <p><a href="#">💼 YouTube</a></p>
+            </div>
+
+        </div>
+
+        <!-- Center Privacy & Terms -->
+        <div class="pp">
+            <h3>Privacy Policy</h3>
+            <p>Your privacy is important to us. We do not share your data.</p>
+        </div>
+
+        <div class="ts">
+            <h3>Terms of Service</h3>
+            <p>By using our website, you agree to our terms and conditions.</p>
+        </div>
+
+        <!-- Footer Bottom -->
+        <div class="footer-bottom">
+            <p>© 2025 Artisans Store. All rights reserved.</p>
+        </div>
+
+    </footer>
+
+
+    <!-- ---------- JAVASCRIPT ---------- -->
+    <script src="products.js"></script>
+
+    <script>
+        const loggedInUser = localStorage.getItem("loggedInUser");
+
+        const loginLink = document.getElementById("loginLink");
+        const logoutLink = document.getElementById("logoutLink");
+        const profileLink = document.getElementById("profileLink");
+        const welcomeUser = document.getElementById("welcomeUser");
+
+        if (loggedInUser) {
+            // hide login, show logout & profile
+            loginLink.style.display = "none";
+            logoutLink.style.display = "inline";
+            profileLink.style.display = "inline";
+
+            // show user name
+            const users = JSON.parse(localStorage.getItem("users")) || [];
+            const user = users.find(u => u.email === loggedInUser);
+            if (user && welcomeUser) {
+                welcomeUser.innerText = `Hello, ${user.name} 👋`;
+            }
+        } else {
+            // show login, hide logout & profile
+            loginLink.style.display = "inline";
+            logoutLink.style.display = "none";
+            profileLink.style.display = "none";
+        }
+
+        // Logout function
+        function logout() {
+            localStorage.removeItem("loggedInUser");
+            alert("You have been logged out.");
+            window.location.href = "home.html";
+        }
+
+    </script>
+
+
+</body>
+
+</html>
